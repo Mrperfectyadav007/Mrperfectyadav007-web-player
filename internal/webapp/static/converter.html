@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#171923"><title>MR. PERFECT YADAV · MP3 Converter</title>
+<style>
+*{box-sizing:border-box}body{margin:0;min-height:100vh;padding:24px;background:radial-gradient(circle at top,#30204c,#12131b 55%);color:#fff;font:700 16px system-ui,sans-serif;display:grid;place-items:center}.card{width:min(100%,480px);padding:26px;border:1px solid #ffffff24;border-radius:24px;background:#20212beF;box-shadow:0 20px 70px #0008}h1{font-size:25px;margin:0 0 8px}.sub{color:#c4c5d3;font-weight:500;line-height:1.5}.drop{display:block;margin:22px 0;padding:24px 14px;text-align:center;border:2px dashed #a78bfa;border-radius:16px;background:#a78bfa12}input{display:block;width:100%;margin-top:15px;color:#ddd}button{width:100%;padding:15px;border:0;border-radius:13px;background:linear-gradient(100deg,#e11d48,#8b5cf6);color:white;font-size:16px;font-weight:800}button:disabled{opacity:.55}#status{min-height:24px;margin-top:16px;color:#ddd;font-size:14px}.note{font-size:12px;color:#aeb0c2;font-weight:500;margin-top:18px;line-height:1.5}a{color:#c4b5fd}
+</style></head>
+<body><main class="card"><h1>🎵 MR. PERFECT YADAV</h1><p class="sub">Video / Audio to MP3 Converter</p>
+<form id="form"><label class="drop">Apni video ya audio file chunein<input name="media" type="file" accept="video/*,audio/*" required></label><button id="convert" type="submit">Convert & Download MP3</button></form>
+<p id="status" role="status"></p><p class="note">Yeh tool sirf aapki apni ya permission wali media files convert karta hai. YouTube link ko bypass karke download nahi karta. Maximum file size: 50 MB. Server par FFmpeg installed hona zaroori hai. Radhe Radhe 🙏</p><p><a href="/room">← Music Player par wapas</a></p></main>
+<script>
+const form=document.getElementById('form'),button=document.getElementById('convert'),status=document.getElementById('status');
+form.addEventListener('submit',async e=>{e.preventDefault();const file=form.elements.media.files[0];if(!file)return;if(file.size>50*1024*1024){status.textContent='File 50 MB se chhoti honi chahiye.';return;}button.disabled=true;status.textContent='Converting…';try{const response=await fetch('/api/convert-mp3',{method:'POST',body:new FormData(form)});if(!response.ok)throw new Error(await response.text());const blob=await response.blob(),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=(file.name.replace(/\.[^.]+$/,'')||'audio')+'.mp3';a.click();URL.revokeObjectURL(url);status.textContent='MP3 download shuru ho gaya.';}catch(err){status.textContent=err.message||'Conversion failed.';}finally{button.disabled=false;}});
+</script></body></html>
