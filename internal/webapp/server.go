@@ -169,6 +169,8 @@ func RegisterRoutes(bot *td.Client, cancelCleanup func(int64)) {
 	})
 	http.HandleFunc("/", ServeHomeHTML)
 	http.HandleFunc("/privacy", ServePrivacyHTML)
+	http.HandleFunc("/converter", serveConverterHTML)
+	http.HandleFunc("/api/convert-mp3", convertOwnedMediaHandler)
 	http.HandleFunc("/stream", streamHandler)
 	http.HandleFunc("/room", ServeWebAppHTML)
 	http.HandleFunc("/api/search", searchHandler)
